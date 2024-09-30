@@ -17,7 +17,7 @@ public_users.post("/register", (req,res) => {
         return res.status(404).json({message: "User already exists"})
     }
   } else {
-    return res.status(404).json({message: "Unable to register. Invalid details in the request"});
+    return res.status(404).json({message: "Please provide Username and Password"});
   }
 });
 
