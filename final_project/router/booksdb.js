@@ -1,6 +1,9 @@
 let books = {
     1: { "author": "Chinua Achebe", "ISBN": 1231, "title": "Things Fall Apart", "reviews": {} },
-    2: { "author": "Hans Christian Andersen", "ISBN": 1233, "title": "Fairy tales", "reviews": {} },
+    2: { "author": "Hans Christian Andersen", "ISBN": 1233, "title": "Fairy tales", "reviews": {
+        "1": "Nice Book",
+        "2": "Good Book"
+    } },
     3: { "author": "Dante Alighieri", "ISBN": 1235, "title": "The Divine Comedy", "reviews": {} },
     4: { "author": "Unknown", "ISBN": 1234, "title": "The Epic Of Gilgamesh", "reviews": {} },
     5: { "author": "Unknown", "ISBN": 1235, "title": "The Book Of Job", "reviews": {} },
