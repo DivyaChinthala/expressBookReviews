@@ -40,12 +40,22 @@ public_users.get('/',async function (req, res) {
 public_users.get('/isbn/:isbn',function (req, res) {
   //Write your code here
     const isbn = req.params.isbn;
-    const filteredKey = Object.keys(books).find((key) => {
-        const book = books[key];
-        return book.ISBN == isbn
+    const bookDetailsPromise = new Promise((resolve, reject) => {
+        const filteredKey = Object.keys(books).find((key) => {
+            const book = books[key];
+            return book.ISBN == isbn
+        })
+        if(filteredKey) {
+            const filteredBook = books[filteredKey]
+            resolve(filteredBook)f
+        } else {
+            reject(`Book with ${isbn} not found`)
+        }
+    }).then((filteredBook) => {
+        return res.status(200).json(filteredBook);
+    }).catch((error) => {
+        return res.status(404).json({message: error});
     })
-    const filteredBook = books[filteredKey]
-  return res.status(200).json(filteredBook);
  });
   
 // Get book details based on author
