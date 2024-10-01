@@ -85,15 +85,25 @@ public_users.get('/author/:author',function (req, res) {
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
   //Write your code here
-  const title = req.params.title;
-  const filteredBooks = []
-  Object.keys(books).filter((key) => {
-    const book = books[key]
-    if(book.title == title) {
-        filteredBooks.push(book)
+  const booksDetailsPromise = new Promise((resolve, reject) => {
+    const title = req.params.title;
+    const filteredBooks = []
+    Object.keys(books).filter((key) => {
+        const book = books[key]
+        if(book.title == title) {
+            filteredBooks.push(book)
+        }
+    });
+    if(filteredBooks.length > 0) {
+        resolve(filteredBooks)
+    } else {
+        reject(`Books not found with title ${title}`)
     }
-  });
-  return res.status(200).json(filteredBooks);
+  }).then((filteredBooks)=> {
+    return res.status(200).json(filteredBooks);
+  }).catch((error) => {
+    return res.status(400).json({message: error});
+  })
 });
 
 //  Get book review
