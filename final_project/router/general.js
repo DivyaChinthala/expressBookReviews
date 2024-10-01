@@ -47,7 +47,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
         })
         if(filteredKey) {
             const filteredBook = books[filteredKey]
-            resolve(filteredBook)f
+            resolve(filteredBook)
         } else {
             reject(`Book with ${isbn} not found`)
         }
@@ -61,15 +61,25 @@ public_users.get('/isbn/:isbn',function (req, res) {
 // Get book details based on author
 public_users.get('/author/:author',function (req, res) {
   //Write your code here
-  const author = req.params.author;
-  const filteredBooks = []
-  Object.keys(books).filter((key) => {
-    const book = books[key]
-    if(book.author == author) {
-        filteredBooks.push(book)
+  const booksDetailsPromise = new Promise((resolve, reject) => {
+    const author = req.params.author;
+    const filteredBooks = []
+        Object.keys(books).filter((key) => {
+            const book = books[key]
+            if(book.author == author) {
+                filteredBooks.push(book)
+            }
+        });
+    if(filteredBooks.length > 0) {
+        resolve(filteredBooks)
+    } else {
+        reject(`Books not found with author ${author}`)
     }
-  });
-  return res.status(200).json(filteredBooks);
+  }).then((filteredBooks)=> {
+    return res.status(200).json(filteredBooks);
+  }).catch((error) => {
+    return res.status(400).json({message: error});
+  })
 });
 
 // Get all books based on title
